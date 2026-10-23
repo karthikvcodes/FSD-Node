@@ -1,5 +1,6 @@
 const express = require("express");
 const studentsRoute = require("./routes/stundentsRoute");
+const courseRoute = require("./routes/courseRoute");
 
 const app = express();
 
@@ -13,5 +14,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/students", studentsRoute);
+app.use("/courses", courseRoute);
 
 module.exports = app;
