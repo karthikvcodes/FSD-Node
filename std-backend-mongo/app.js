@@ -1,6 +1,7 @@
 const express = require("express");
 const studentsRoute = require("./routes/stundentsRoute");
 const courseRoute = require("./routes/courseRoute");
+const reportsRoute = require("./routes/reportsRoute");
 
 const app = express();
 
@@ -15,5 +16,6 @@ app.get("/", (req, res) => {
 
 app.use("/students", studentsRoute);
 app.use("/courses", courseRoute);
+app.use("/reports", reportsRoute);
 
 module.exports = app;
