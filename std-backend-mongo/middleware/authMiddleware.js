@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-
-const protect = (req, res, next) => {
+const userModel = require("../models/userModel");
+const protect = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -33,8 +33,22 @@ const protect = (req, res, next) => {
       audience: process.env.JWT_AUDIENCE,
     });
 
+    const user = await userModel
+      .findById(decoded.sub)
+      .select("_id name email role");
+
+    if (!user) {
+      res.status(401).json({
+        message: "User no longer exists",
+        success: false,
+      });
+    }
+
     req.user = {
-      id: decoded.sub,
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role || "student",
     };
 
     next();
